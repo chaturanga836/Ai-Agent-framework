@@ -135,7 +135,8 @@ class NarrativeResearchWorkflow(BaseWorkflow):
             ctx.log_step(
                 "customer_database",
                 "configured",
-                f"{db_cfg.get('host')}:{db_cfg.get('port')}/{db_cfg.get('database')}",
+                f"{db_cfg.get('db_type', 'postgres')}://{db_cfg.get('host')}:"
+                f"{db_cfg.get('port')}/{db_cfg.get('database')}",
             )
 
         max_sources = int(data.get("max_sources") or 10)
