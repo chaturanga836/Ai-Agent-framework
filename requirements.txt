@@ -1,0 +1,14 @@
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+httpx>=0.27.0
+sqlalchemy>=2.0.25
+psycopg2-binary>=2.9.9
+python-multipart>=0.0.6
+
+# LlamaIndex Workflows (install when enabling workflow graphs)
+# Pin versions after first successful install in your environment.
+llama-index-core>=0.12.0
+llama-index-workflows>=0.2.0
+openai>=1.0.0

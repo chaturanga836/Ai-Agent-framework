@@ -1,0 +1,19 @@
+services:
+  agent-api:
+    build: .
+    container_name: elt-agent-api
+    ports:
+      - "8100:8100"
+    env_file:
+      - .env
+    environment:
+      # Override in .env — example for ELT full stack on shared network:
+      # DATABASE_URL=postgresql://elt:changeme@postgres:5432/elt_agent
+      ETL_API_URL: ${ETL_API_URL:-http://host.docker.internal:8000/api/v1}
+    restart: unless-stopped
+    # When using etl-deployment compose, attach to the same network:
+    # networks:
+    #   - etl-net
+
+# volumes:
+#   agent_data:  # only needed for SQLite
