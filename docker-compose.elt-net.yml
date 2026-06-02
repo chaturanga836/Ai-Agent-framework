@@ -1,0 +1,19 @@
+# Use with the ELT deployment stack already running:
+#   cd etl-deployment && docker compose --profile backend up -d
+#   cd ../Ai-Agent-framework
+#   docker compose -f docker-compose.yml -f docker-compose.elt-net.yml up --build
+#
+# Requires DATABASE_URL in .env (or below) to use the in-stack Postgres hostname.
+
+services:
+  agent-api:
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://elt:changeme@postgres:5432/elt_agent}
+      ETL_API_URL: ${ETL_API_URL:-http://api:8000/api/v1}
+    networks:
+      - elt-net
+
+networks:
+  elt-net:
+    external: true
+    name: elt-engine_elt-net

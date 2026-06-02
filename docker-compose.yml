@@ -1,19 +1,24 @@
+# Standalone agent container. For the full ELT stack, prefer etl-deployment:
+#   docker compose --profile full up -d --build
+#
+# If you run this file alone, DATABASE_URL must use a host reachable from Docker
+# (e.g. host.docker.internal or a public IP) — NOT ranger-db or other hosts
+# that exist only in a different compose project.
+
 services:
   agent-api:
     build: .
     container_name: elt-agent-api
     ports:
-      - "8100:8100"
+      - "${AGENT_PORT:-8100}:8100"
     env_file:
       - .env
     environment:
-      # Override in .env — example for ELT full stack on shared network:
-      # DATABASE_URL=postgresql://elt:changeme@postgres:5432/elt_agent
+      DATABASE_URL: ${DATABASE_URL:-postgresql://elt:changeme@host.docker.internal:5432/elt_agent}
       ETL_API_URL: ${ETL_API_URL:-http://host.docker.internal:8000/api/v1}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
-    # When using etl-deployment compose, attach to the same network:
-    # networks:
-    #   - etl-net
 
-# volumes:
-#   agent_data:  # only needed for SQLite
+# Optional: join the etl-deployment network (project name: elt-engine)
+#   docker compose -f docker-compose.yml -f docker-compose.elt-net.yml up --build
