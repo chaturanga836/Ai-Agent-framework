@@ -14,8 +14,9 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://elt:changeme@host.docker.internal:5432/elt_agent}
-      ETL_API_URL: ${ETL_API_URL:-http://host.docker.internal:8000/api/v1}
+      # Use AGENT_* so a host-wide DATABASE_URL (e.g. ranger-db) cannot override via compose interpolation
+      DATABASE_URL: ${AGENT_DATABASE_URL:-postgresql://postgres:2324@13.200.160.10:5432/elt_agent}
+      ETL_API_URL: ${AGENT_ETL_API_URL:-http://host.docker.internal:8000/api/v1}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped

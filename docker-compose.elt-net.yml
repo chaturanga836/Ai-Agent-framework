@@ -8,8 +8,8 @@
 services:
   agent-api:
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://elt:changeme@postgres:5432/elt_agent}
-      ETL_API_URL: ${ETL_API_URL:-http://api:8000/api/v1}
+      DATABASE_URL: ${AGENT_DATABASE_URL:-postgresql://elt:changeme@postgres:5432/elt_agent}
+      ETL_API_URL: ${AGENT_ETL_API_URL:-http://api:8000/api/v1}
     networks:
       - elt-net
 
